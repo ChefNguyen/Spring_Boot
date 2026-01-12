@@ -4,12 +4,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
-import ttan.local.ttan.modules.users.dtos.LoginRequest;
-import ttan.local.ttan.modules.users.dtos.LoginResponse;
+import jakarta.validation.Valid;
+import ttan.local.ttan.modules.users.requests.LoginRequest;
+import ttan.local.ttan.modules.users.resources.LoginResource;
 import ttan.local.ttan.modules.users.services.interfaces.UserServiceInterface;
 
 @RestController
-@RequestMapping("v1/auth")
+@RequestMapping("api/v1/auth")
 public class AuthController 
 {
     private final UserServiceInterface userService;
@@ -20,9 +21,9 @@ public class AuthController
     }
 
     @PostMapping("login")
-    public ResponseEntity<LoginResponse> login( @RequestBody LoginRequest request )
+    public ResponseEntity<LoginResource> authenticate( @Valid @RequestBody LoginRequest request )
     {
-        LoginResponse auth = userService.login(request);
+        LoginResource auth = userService.authenticate(request);
         return ResponseEntity.ok(auth);
     }
 }

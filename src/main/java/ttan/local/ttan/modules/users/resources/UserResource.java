@@ -1,12 +1,12 @@
-package ttan.local.ttan.modules.users.dtos;
+package ttan.local.ttan.modules.users.resources;
 
-public class UserDTO 
+public class UserResource 
 {
     private final Long id;
     private final String email;
 
     // final là immutable và phải assign trong constructor => không có setter
-    public UserDTO( Long id, String email )
+    public UserResource( Long id, String email )
     {
         this.id = id;
         this.email = email;
