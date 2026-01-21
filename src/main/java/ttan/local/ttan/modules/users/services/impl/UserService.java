@@ -33,7 +33,7 @@ public class UserService extends BaseService implements UserServiceInterface {
         String email = request.getEmail();
 
         // Tìm user theo email trong database
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email).orElse(null);
 
         // Kiểm tra user có tồn tại không
         if (user == null) {
@@ -48,7 +48,7 @@ public class UserService extends BaseService implements UserServiceInterface {
         }
 
         // Tạo token và trả về
-        UserResource userResource = new UserResource(user.getId(), user.getEmail());
+        UserResource userResource = new UserResource(user.getId(), user.getEmail(), user.getName());
         String token = jwtService.generateToken(user.getId(), user.getEmail());
 
         logger.info("Login successful for email: {}", email);

@@ -21,9 +21,12 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Tắt CSRF cho API
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/**", "/error").permitAll() // Cho phép truy cập không cần login
+                        .requestMatchers("/api/v1/auth/**", "/api/v1/me", "/error").permitAll() // Cho phép truy cập
+                                                                                                // không cần login
                         .anyRequest().authenticated() // Các request khác cần xác thực
-                );
+                )
+                .sessionManagement( session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS) )
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
