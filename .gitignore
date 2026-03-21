@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Tracking and other projects ###
+.gemini
+.claude
+.gitnexus
+ui-ux-pro-max-skill

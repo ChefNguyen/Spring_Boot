@@ -34,20 +34,29 @@ public class JwtService {
                 .compact();
     }
 
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
-    }
+    // public String extractUsername(String token) {
+    // return extractClaim(token, Claims::getSubject);
+    // }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
+    // public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    // final Claims claims = extractAllClaims(token);
+    // return claimsResolver.apply(claims);
+    // }
 
-    private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                .verifyWith(key)
+    // private Claims extractAllClaims(String token) {
+    // return Jwts.parser()
+    // .verifyWith(key)
+    // .build()
+    // .parseSignedClaims(token)
+    // .getPayload();
+    // }
+    public String getUserIdFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(key) // Dùng verifyWith thay cho setSigningKey
                 .build()
-                .parseSignedClaims(token)
+                .parseSignedClaims(token) // Trả về Jws<Claims>
                 .getPayload();
+        return claims.get("userId").toString();
     }
+
 }

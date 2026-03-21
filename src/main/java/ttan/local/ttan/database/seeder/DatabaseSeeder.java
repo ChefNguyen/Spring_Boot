@@ -28,6 +28,9 @@ public class DatabaseSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (isTableEmpty()) {
+            // Thêm mục danh mục user trước để thoả mãn khoá ngoại (id = 1)
+            entityManager.createNativeQuery("INSERT IGNORE INTO user_catalogues (id, name) VALUES (1, 'Admin')").executeUpdate();
+
             String encodedPassword = passwordEncoder.encode("123456");
 
             // entityManager.createNativeQuery( "INSERT INTO users( name, email, password,
