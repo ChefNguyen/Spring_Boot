@@ -17,11 +17,20 @@ public class UserController
     private UserRepository userRepository;
 
     @GetMapping("/me")
-    public ResponseEntity<?> me() 
+    public ResponseEntity<?> me(org.springframework.security.core.Authentication authentication) 
     {
-        String email = "tantuantu@gmail.com";
+        // Lấy thông tin user đăng nhập từ SecurityContext (được JwtAuthFilter đưa vào)
+        org.springframework.security.core.userdetails.UserDetails userDetails = 
+                (org.springframework.security.core.userdetails.UserDetails) authentication.getPrincipal();
+        
+        String email = userDetails.getUsername(); // Lấy email từ token thực tế
         User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
-        UserResource userResource = new UserResource( user.getId(), user.getEmail(), user.getName() );
+        UserResource userResource = UserResource.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .phone(user.getPhone())
+                .build();
         return ResponseEntity.ok( new SuccessResource<>("success", userResource ) );
     }
 }

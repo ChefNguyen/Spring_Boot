@@ -49,10 +49,18 @@ public class UserService extends BaseService implements UserServiceInterface {
         }
 
         // Tạo token và trả về
-        UserResource userResource = new UserResource(user.getId(), user.getEmail(), user.getName());
+        UserResource userResource = UserResource.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .phone(user.getPhone())
+                .build();
         String token = jwtService.generateToken(user.getId(), user.getEmail());
 
         logger.info("Login successful for email: {}", email);
-        return new LoginResource(token, userResource);
+        return LoginResource.builder()
+                .token(token)
+                .user(userResource)
+                .build();
     }
 }
